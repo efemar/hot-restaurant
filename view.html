@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+​
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  ​
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  ​
+  <title>Hello, world!</title>
+</head>
+​
+
+<body>
+  <div class="container">
+    <!--Jumbotron-->
+    <div class="jumbotron">
+      <h1 class="display-4">4 Chefs - Super Hot Restaurant</h1>
+      <hr class="my-4" />
+      <p class="lead">Reservation list</p>
+      <a class="btn btn-primary" href="/make" role="button">Book a Table</a>
+      <a class="btn btn-info" href="/" role="button">Home</a>
+    </div>
+
+    <!--Reservations-->
+    <div class="card">
+      <div class="card-header bg-primary text-white font-weight-bold">
+        Current Reservation
+      </div>
+
+      <!--This is where the main reservations will go-->
+
+      <div class="card">
+        <div class="card-header font-weight-bold">
+          <div class="card-body">
+            <ul class="list-group" id="table">
+            </ul>
+            <hr>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+      <!--Waiting List -->
+
+      <div class="card">
+        <div class="card-header bg-primary text-white font-weight-bold">
+          Waiting List
+        </div>
+
+        <div class="card">
+          <div class="card-header font-weight-bold">
+            <div class="card-body">
+              <ul class="list-group" id="wait">
+              </ul>
+              <hr>
+            </div>
+          </div>
+
+
+        </div>
+        <br>
+      </div>
+
+      <!--footer--> ​
+      <footer>
+        <h6>Control Panel</h5>
+          <p><a href="/clear">Clear Table </a> |
+            <a href="/api/table">API Table Link</a> |
+            <a href="/api/wait">API Wait Link</a>
+          </p>
+      </footer>
+      ​
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    ​
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+      </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+      </script>
+    <script type="text/javascript">
+      
+
+      $.get("/api/table", function (data) {
+        console.log(data)
+            if (data.length >0 ) {
+                for (var i = 0; i < data.length; i++) {
+                    var liEle = $("<li>");
+                    liEle.addClass("list-group-item");
+                    liEle.html(data[i].id + "<br>" + data[i].name + "<br>" + data[i].email + "<br>" + data[i].phone);
+                    $('#table').append(liEle);
+                }
+            } else {
+                $("#table").append($("<li>").addClass("list-group-item").text("You are in luck!! Tables are available!"));
+            }
+        });
+
+
+        $.get("/api/wait", function (data) {
+            if (data.length >0) {
+                for (var i = 0; i < data.length; i++) {
+                    var liEle = $("<li>");
+                    liEle.addClass("list-group-item");
+                    liEle.html(data[i].id + "<br>" + data[i].name + "<br>" + data[i].email + "<br>" + data[i].phone);
+                    $('#wait').append(liEle);
+                }
+            } else {
+                $("#wait").append($("<li>").addClass("list-group-item").text("No waiting list as of yet!"));
+            }
+        });
+
+
+
+
+    </script>
+</body>
+​
+
+</html>
